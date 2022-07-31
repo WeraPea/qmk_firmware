@@ -23,6 +23,8 @@
 #    define RGBLIGHT_VAL_STEP  8
 #    define RGBLIGHT_LIMIT_VAL 150
 #endif
+#define LEADER_TIMEOUT 250
+#define LEADER_PER_KEY_TIMING
 
 // Lets you roll mod-tap keys
 #define IGNORE_MOD_TAP_INTERRUPT
