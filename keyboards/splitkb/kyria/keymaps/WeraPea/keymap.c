@@ -26,47 +26,45 @@ enum layers {
     _NAV,
     _SYM,
     _FUNCTION,
-    _ADJUST,
 	_MOUSE,
 	_GAMES,
 	_GAMESNAV,
 };
 
-#undef TAPPING_TOGGLE
-#define TAPPING_TOGGLE 2
 // Aliases for readability
 #define QWERTY   DF(_QWERTY)
-
 #define SYM      MO(_SYM)
 #define NAV      MO(_NAV)
 #define FKEYS    MO(_FUNCTION)
-#define MOUSE    TT(_MOUSE)
 #define G_NAV    TG(_GAMESNAV)
 #define GAMES    TG(_GAMES)
 
-#define CTL_ESC   MT(MOD_LCTL, KC_ESC)
-#define CTL_QUOT  MT(MOD_RCTL, KC_QUOTE)
-#define CTL_MINS  MT(MOD_RCTL, KC_MINUS)
-#define ALT_ENT   MT(MOD_LALT, KC_ENT)
-#define GUI_ESC   MT(MOD_LGUI, KC_ESC)
-#define NAV_SPC   LT(_NAV, KC_SPC)
-#define GUI_SYM   LM(_SYM, MOD_LGUI)
-#define ENT_SYM   LT(_SYM, KC_ENT)
-#define LEAD_SYM  LT(_SYM, KC_ENT)
-#define ALT_SLASH MT(MOD_RALT, KC_SLSH)
+#define CTL_ESC		  MT(MOD_LCTL, KC_ESC)
+#define CTL_QUOT	  MT(MOD_RCTL, KC_QUOTE)
+#define CTL_MINS	  MT(MOD_RCTL, KC_MINUS)
+#define ALT_ENT		  MT(MOD_LALT, KC_ENT)
+#define GUI_ESC		  MT(MOD_LGUI, KC_ESC)
+#define ALT_SLASH 	  MT(MOD_RALT, KC_SLSH)
 
-LEADER_EXTERNS();
+#define NAV_SPC		  LT(_NAV, KC_SPC)
+#define GUI_SYM		  LM(_SYM, MOD_LGUI)
+#define ENT_SYM		  LT(_SYM, KC_ENT)
+#define LEAD_SYM	  LT(_SYM, KC_LEAD)
+#define LEAD_FKEYS 	  LT(_FUNCTION, KC_LEAD)
+#define MOUSE_BSLSH   LT(_MOUSE, KC_BSLASH)
 
-void matrix_scan_user(void) {
-  LEADER_DICTIONARY() {
-    leading = false;
-    leader_end();
+/* LEADER_EXTERNS(); */
 
-    SEQ_ONE_KEY(KC_G) {
-		layer_invert(_GAMES);
-    }
-  }
-}
+/* void matrix_scan_user(void) { */
+/*   LEADER_DICTIONARY() { */
+/*     leading = false; */
+/*     leader_end(); */
+
+/*     SEQ_ONE_KEY(KC_G) { */
+/* 		layer_invert(_GAMES); */
+/*     } */
+/*   } */
+/* } */
 
 
 // Note: LAlt/Enter (ALT_ENT) is not the same thing as the keyboard shortcut Alt+Enter.
@@ -83,10 +81,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
  * | GUI/Esc|   A  |   S  |   D  |   F  |   G  |                              |   H  |   J  |   K  |   L  | ;  : |Ctrl/' "|
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * | LShift |   Z  |   X  |   C  |   V  |   B  | [ {  | Games|  |F-keys|  ' " |   N  |   M  | ,  < | . >  | AltGr | RShift|
+ * | LShift |   Z  |   X  |   C  |   V  |   B  | [ {  |Games |  |F-keys|  ' " |   N  |   M  | ,  < | . >  | AltGr |RShift |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        | GUI+ | Ctrl | Space| Sym/ | Alt/ |  | Sym  | Nav/ | Alt  | GUI  | Mouse|
- *                        | Sym  |      |      |Leader|Enter |  |      | Space|      |      |      |
+ *                        | GUI+ | Ctrl | Space| Sym/ |Fkeys/|  | Sym  | Nav/ | Alt  | GUI  |Mouse |
+ *                        | Sym  |      |      |Enter |Leader|  |      |Space |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
 
@@ -94,7 +92,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_TAB  , KC_Q ,  KC_W   ,  KC_E  ,   KC_R ,   KC_T ,                                        KC_Y,   KC_U ,  KC_I ,   KC_O ,  KC_P , KC_BSPC,
 	 GUI_ESC , KC_A ,  KC_S   ,  KC_D  ,   KC_F ,   KC_G ,                                        KC_H,   KC_J ,  KC_K ,   KC_L ,KC_SCLN,CTL_QUOT,
      KC_LSFT , KC_Z ,  KC_X   ,  KC_C  ,   KC_V ,   KC_B , KC_LBRC, GAMES ,     FKEYS  ,KC_QUOTE, KC_N,   KC_M ,KC_COMM, KC_DOT ,ALT_SLASH, KC_ENT,
-                               GUI_SYM , KC_LCTL,  KC_SPC,LEAD_SYM,ALT_ENT,    ENT_SYM, NAV_SPC, KC_LALT, KC_LGUI, MOUSE
+                               GUI_SYM , KC_LCTL,  KC_SPC, ENT_SYM, LEAD_FKEYS, ENT_SYM, NAV_SPC, KC_LALT, KC_LGUI, MOUSE_BSLSH
     ),
 
 /*
@@ -117,33 +115,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______, _______, KC_SLCK, _______, KC_INS ,KC_PAUSE, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_PSCR,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
-
-/*
- * mouse layer: Mouse, mouse controls
- * hjkl: move mouse
- * U/I: left/right click
- * O: middle click
- * Y/N: scroll up/down
- * S/D/F: left/middle/right click
- *
- * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |      |      |      |      |      |                              |ScUp  |MCleft|MCrght|MCmid |      |        |
- * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |        |      |      |      |      |      |                              |Mleft |Mdown |Mup   |Mright|      |        |
- * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |        |      |      |      |      |      |      |      |  |	   |      |ScDn  |      |      |      |      |        |
- * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |      |      |      |      |      |  |      |      |      |      |      |
- *                        |      |      |      |      |      |  |      |      |      |      |      |
- *                        `----------------------------------'  `----------------------------------'
- */
-	[_MOUSE] = LAYOUT(
-	  _______, _______, _______, _______, _______, _______,                                     KC_WH_U, KC_BTN1, KC_BTN3, KC_BTN2, _______, _______,
-	  _______, _______, _______, _______, _______, _______,                                     KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, _______, _______,
-	  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_WH_D, KC_ACL0, KC_ACL1, KC_ACL2, _______, _______,
-								 _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
-	),
-
 
 /*
  * Sym Layer: Numbers and symbols
@@ -190,6 +161,32 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
+
+/*
+ * mouse layer: Mouse, mouse controls
+ * hjkl: move mouse
+ * U/I: left/right click
+ * O: middle click
+ * Y/N: scroll up/down
+ * S/D/F: left/middle/right click
+ *
+ * ,-------------------------------------------.                              ,-------------------------------------------.
+ * |        |      |      |      |      |      |                              |ScUp  |MCleft|MCrght|MCmid |      |        |
+ * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |                              |Mleft |Mdown |Mup   |Mright|      |        |
+ * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |      |      |  |	   |      |ScDn  |      |      |      |      |        |
+ * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
+ *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        `----------------------------------'  `----------------------------------'
+ */
+	[_MOUSE] = LAYOUT(
+	  _______, _______, _______, _______, _______, _______,                                     KC_WH_U, KC_BTN1, KC_BTN3, KC_BTN2, _______, _______,
+	  _______, _______, _______, _______, _______, _______,                                     KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, _______, _______,
+	  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_WH_D, KC_ACL0, KC_ACL1, KC_ACL2, _______, _______,
+								 _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+	),
 
 /*
  * Games:
@@ -368,27 +365,28 @@ static void render_anim(void) {
         }
     }
     if (get_current_wpm() != 000) {
-        oled_on();  // not essential but turns on animation OLED with any alpha keypress
+        /* oled_on();  // not essential but turns on animation OLED with any alpha keypress */
         if (timer_elapsed32(anim_timer) > ANIM_FRAME_DURATION) {
             anim_timer = timer_read32();
             animation_phase();
         }
         anim_sleep = timer_read32();
     } else {
-        if (timer_elapsed32(anim_sleep) > OLED_TIMEOUT) {
-            oled_off();
-        } else {
+        /* if (timer_elapsed32(anim_sleep) > OLED_TIMEOUT) { */
+            /* oled_off(); */
+        /* } else { */
             if (timer_elapsed32(anim_timer) > ANIM_FRAME_DURATION) {
                 anim_timer = timer_read32();
                 animation_phase();
             }
-        }
+        /* } */
     }
 }
 
 bool oled_task_user(void) {
-    if (! is_keyboard_master()) {
+    /* if (! is_keyboard_master()) { */
     /* if (true) { */
+    if (false) {
         // QMK Logo and version information
         // clang-format off
         static const char PROGMEM qmk_logo[] = {
@@ -408,11 +406,10 @@ bool oled_task_user(void) {
 		render_anim();  // renders pixelart
 
 		oled_set_cursor(0, 0);                            // sets cursor to (row, column) using charactar spacing (5 rows on 128x32 screen, anything more will overflow back to the top)
-		sprintf(wpm_str, "WPM:%03d", get_current_wpm());  // edit the string to change wwhat shows up, edit %03d to change how many digits show up
-		oled_write(wpm_str, false);                       // writes wpm on top left corner of string
+		/* oled_write_P(PSTR("WPM:"), false); */
+		/* oled_write(get_u8_str(get_current_wpm(), ' '), false); */
 
-		oled_set_cursor(0, 1);
-		/* oled_write_P(led_state.caps_lock ? PSTR("CAPS") : PSTR("       "), false); */
+		/* oled_set_cursor(0, 1); */
 
         // Host Keyboard Layer Status
         switch (get_highest_layer(layer_state|default_layer_state)) {
@@ -428,9 +425,9 @@ bool oled_task_user(void) {
             case _FUNCTION:
                 oled_write_P(PSTR("Func   "), false);
                 break;
-			case _MOUSE:
-				oled_write_P(PSTR("Mouse  "), false);
-				break;
+            case _MOUSE:
+                oled_write_P(PSTR("Mouse  "), false);
+                break;
 			case _GAMES:
 				oled_write_P(PSTR("Games  "), false);
 				break;
