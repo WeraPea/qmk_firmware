@@ -14,4 +14,4 @@ echo
 # wait for user input
 read -p "Press any key to continue... " -n1 -s
 export DISPLAY=:0
-xset r rate 300 50
+xset r rate 300 100
