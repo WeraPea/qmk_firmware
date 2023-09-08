@@ -1,5 +1,5 @@
 OLED_ENABLE = yes
-OLED_DRIVER = SSD1306   # Enables the use of OLED displays
+OLED_DRIVER = ssd1306   # Enables the use of OLED displays
 	
 # MCU name
 MCU = atmega32u4
@@ -23,7 +23,4 @@ MAGIC_ENABLE = no
 LEADER_ENABLE = yes
 WPM_ENABLE = yes
 MOUSEKEY_ENABLE = yes
-# JOYSTICK_ENABLE = yes
-# JOYSTICK_DRIVER = analog
-POINTING_DEVICE_ENABLE = yes
-POINTING_DEVICE_DRIVER = analog_joystick
+KEY_OVERRIDE_ENABLE = no
