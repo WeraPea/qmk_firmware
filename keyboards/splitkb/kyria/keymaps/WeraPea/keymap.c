@@ -16,70 +16,72 @@
 #include QMK_KEYBOARD_H
 #include "raw_hid.h"
 #ifdef WPM_ENABLE
-#include <stdio.h>
+#    include <stdio.h>
 char wpm_str[10];
 #endif
 
 enum layers {
     _QWERTY = 0,
+    _COLEMAK,
     _ESC_SPR,
     _NAV,
     _NUMFUN,
     _SYM,
-  	_MOUSE,
-  	_GAMES,
-  	_GAMESNAV,
+    _MOUSE,
+    _GAMES,
+    _GAMESNAV,
     _TOOLS,
     _ESC,
     _FUCKINGSHIFT,
 };
-
 
 #ifdef LEADER_ENABLE
 // LEADER_EXTERNS();
 
 void leader_end_user(void) {
     if (leader_sequence_one_key(KC_G)) {
-      	layer_invert(_GAMES);
+        layer_invert(_GAMES);
     } else if (leader_sequence_one_key(KC_N)) {
-      	layer_invert(_GAMESNAV);
+        layer_invert(_GAMESNAV);
     } else if (leader_sequence_one_key(KC_T)) {
-    		layer_invert(_TOOLS);
+        layer_invert(_TOOLS);
     } else if (leader_sequence_one_key(KC_I)) {
         register_code(KC_LSFT);
         register_code(KC_INSERT);
         unregister_code(KC_INSERT);
         unregister_code(KC_LSFT);
     } else if (leader_sequence_one_key(KC_E)) {
-    		layer_invert(_ESC_SPR);
+        layer_invert(_ESC_SPR);
     } else if (leader_sequence_one_key(KC_R)) {
-    		layer_invert(_ESC);
+        layer_invert(_ESC);
     } else if (leader_sequence_one_key(KC_S)) {
-    		layer_invert(_FUCKINGSHIFT);
+        layer_invert(_FUCKINGSHIFT);
+    } else if (leader_sequence_one_key(KC_C)) {
+        layer_invert(_COLEMAK);
     }
 }
 
 #endif
 
 // Aliases for readability
-#define QWERTY		 DF(_QWERTY)
-#define NUM			 MO(_NUMFUN)
-#define SYM			 MO(_SYM)
-#define NAV			 MO(_NAV)
+#define QWERTY DF(_QWERTY)
+#define NUM MO(_NUMFUN)
+#define SYM MO(_SYM)
+#define NAV MO(_NAV)
 
-#define CTL_ESC		 MT(MOD_LCTL, KC_ESC)
-#define CTL_QUOT	 MT(MOD_RCTL, KC_QUOTE)
-#define CTL_MINS	 MT(MOD_RCTL, KC_MINUS)
-#define ALT_SPC		 MT(MOD_LALT, KC_SPC)
-#define GUI_ESC		 MT(MOD_LGUI, KC_ESC)
-#define ALT_SLASH	 MT(MOD_RALT, KC_SLSH)
+#define CTL_ESC MT(MOD_LCTL, KC_ESC)
+#define CTL_QUOT MT(MOD_RCTL, KC_QUOTE)
+#define CTL_MINS MT(MOD_RCTL, KC_MINUS)
+#define ALT_SPC MT(MOD_LALT, KC_SPC)
+#define GUI_ESC MT(MOD_LGUI, KC_ESC)
+#define ALT_SLASH MT(MOD_RALT, KC_SLSH)
+#define LALT_BKSP MT(MOD_LALT, KC_BSPC)
 
-#define NAV_SPC		 LT(_NAV    , KC_SPC)
-#define GUI_NUM		 LM(_NUMFUN , MOD_LGUI)
-#define ENT_NUM		 LT(_NUMFUN , KC_ENT)
-#define ENT_SYM		 LT(_SYM    , KC_ENT)
-#define MOUSE_TILD   LT(_MOUSE  , KC_TILD)
-
+#define NAV_SPC LT(_NAV, KC_SPC)
+#define GUI_NUM LM(_NUMFUN, MOD_LGUI)
+#define ENT_NUM LT(_NUMFUN, KC_ENT)
+#define ENT_SYM LT(_SYM, KC_ENT)
+#define MOUSE_TILD LT(_MOUSE, KC_TILD)
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -100,9 +102,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_QWERTY] = LAYOUT(
      KC_TAB  , KC_Q   , KC_W   , KC_E   , KC_R   , KC_T   ,                                     KC_Y   , KC_U   , KC_I   , KC_O   , KC_P   ,KC_BSPC ,
-	   KC_LGUI , KC_A   , KC_S   , KC_D   , KC_F   , KC_G   ,                                     KC_H   , KC_J   , KC_K   , KC_L   , KC_SCLN,CTL_QUOT,
+	 KC_LGUI , KC_A   , KC_S   , KC_D   , KC_F   , KC_G   ,                                     KC_H   , KC_J   , KC_K   , KC_L   , KC_SCLN,CTL_QUOT,
      KC_LSFT , KC_Z   , KC_X   , KC_C   , KC_V   , KC_B   , KC_MSEL, KC_SYRQ, NUM    , KC_MSEL, KC_N   , KC_M   , KC_COMM, KC_DOT ,ALT_SLASH,KC_RSFT,
-                                 GUI_NUM, KC_LCTL, KC_SPC , ENT_SYM, QK_LEAD, ENT_SYM, NAV_SPC, KC_LALT, KC_LGUI, MOUSE_TILD
+                                 GUI_NUM, KC_LCTL, ALT_SPC, ENT_SYM, QK_LEAD, ENT_SYM, NAV_SPC, LALT_BKSP, KC_LGUI, MOUSE_TILD
+    ),
+
+/*
+ * Colemak-DH
+ *
+ * ,-------------------------------------------.                              ,-------------------------------------------.
+ * |        |      |      |      |      |      |                              |      |      |      |      |      |        |
+ * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |                              |      |      |      |      |      |        |
+ * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |      |      |  |      |      |      |      |      |      |      |        |
+ * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
+ *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        `----------------------------------'  `----------------------------------'
+ */
+    [_COLEMAK] = LAYOUT(
+      _______, KC_Q   , KC_W   , KC_F   , KC_P   , KC_B   ,                                     KC_J   , KC_L   , KC_U   , KC_Y   , KC_SCLN, _______,
+      _______, KC_A   , KC_R   , KC_S   , KC_T   , KC_G   ,                                     KC_M   , KC_N   , KC_E   , KC_I   , KC_O   , _______,
+      _______, KC_Z   , KC_X   , KC_C   , KC_D   , KC_V   , _______, _______, _______, _______, KC_K   , KC_H   , _______, _______, _______, _______,
+                                 _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
 
 /*
@@ -159,10 +182,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
  * |        |      |      |      |      |      |      |      |  |      |      |      |      |      | F11  | F12  |        |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |      |      |      |      |      |  |      |      |      |      |      | *                        |      |      |      |      |      |  |      |      |      |      |      | *                        `----------------------------------'  `----------------------------------'
+ *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        |      |      |      |      |      |  |      |      |      |      |      |
+ *                        `----------------------------------'  `----------------------------------'
  */
     [_NUMFUN] = LAYOUT(
-             , KC_1   , KC_2   , KC_3   , KC_4   , KC_5   ,                                     KC_6   , KC_7   , KC_8   , KC_9   , KC_0    , _______,
+      _______, KC_1   , KC_2   , KC_3   , KC_4   , KC_5   ,                                     KC_6   , KC_7   , KC_8   , KC_9   , KC_0   , _______,
 	  _______, KC_F1  , KC_F2  , KC_F3  , KC_F4  , KC_F5  ,                                     KC_F6  , KC_F7  , KC_F8  , KC_F9  , KC_F10 , _______,
       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_F11 , KC_F12 , _______,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
@@ -191,23 +216,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	  _______, _______, _______, _______, _______, _______,                                     KC_WH_U, KC_BTN1, KC_BTN3, KC_BTN2, _______, _______,
 	  _______, _______, _______, _______, _______, _______,                                     KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, _______, _______,
 	  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_WH_D, KC_ACL0, KC_ACL1, KC_ACL2, _______, _______,
-								 _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+                               _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 	),
 
-/*
- * Games:
- *
- * ,-------------------------------------------.                              ,-------------------------------------------.
- * |        |      |      |      |      |      |                              |      |      |      |      |      |        |
- * |--------+------+------+------+------+------|                              |------+------+------+------+------+--------|
- * |  ESC   |      |      |      |      |      |                              |      |      |      |      |      |        |
- * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
- * |        |      |      |      |      |      |      |      |  |      |      |      |      |      |      |      |        |
- * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        |  Alt |      | Space|      |      |  |      |      |      |      |      |
- *                        |      |      |      |      |      |  |      |      |      |      |      |
- *                        `----------------------------------'  `----------------------------------'
- */
     [_GAMES] = LAYOUT(
       _______, _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
       KC_ESC , _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
@@ -318,7 +329,6 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 
 #ifdef WPM_ENABLE
 #ifdef OLED_ENABLE
-/* #ifdef OLED_DRIVER_ENABLE */
 // WPM-responsive animation stuff here
 #    define IDLE_FRAMES 5
 #    define IDLE_SPEED 20  // below this wpm value your animation will idle
@@ -416,7 +426,7 @@ static void render_anim(void) {
 
 bool oled_task_user(void) {
     /* if (! is_keyboard_master()) { */
-    /* if (true) { */
+    // if (true) {
     if (false) {
         // QMK Logo and version information
         // clang-format off
@@ -430,22 +440,25 @@ bool oled_task_user(void) {
 
         // Write host Keyboard LED Status to OLEDs
         led_t led_usb_state = host_keyboard_led_state();
-        oled_write_P(led_usb_state.num_lock    ? PSTR("NUMLCK ") : PSTR("       "), false);
-        oled_write_P(led_usb_state.caps_lock   ? PSTR("CAPLCK ") : PSTR("       "), false);
+        oled_write_P(led_usb_state.num_lock ? PSTR("NUMLCK ") : PSTR("       "), false);
+        oled_write_P(led_usb_state.caps_lock ? PSTR("CAPLCK ") : PSTR("       "), false);
         oled_write_P(led_usb_state.scroll_lock ? PSTR("SCRLCK ") : PSTR("       "), false);
     } else {
-		render_anim();  // renders pixelart
+        render_anim(); // renders pixelart
 
-		oled_set_cursor(0, 0);                            // sets cursor to (row, column) using charactar spacing (5 rows on 128x32 screen, anything more will overflow back to the top)
-		/* oled_write_P(PSTR("WPM:"), false); */
-		/* oled_write(get_u8_str(get_current_wpm(), ' '), false); */
+        oled_set_cursor(0, 0); // sets cursor to (row, column) using charactar spacing (5 rows on 128x32 screen, anything more will overflow back to the top)
+                               /* oled_write_P(PSTR("WPM:"), false); */
+                               /* oled_write(get_u8_str(get_current_wpm(), ' '), false); */
 
-		/* oled_set_cursor(0, 1); */
+        /* oled_set_cursor(0, 1); */
 
         // Host Keyboard Layer Status
-        switch (get_highest_layer(layer_state|default_layer_state)) {
+        switch (get_highest_layer(layer_state | default_layer_state)) {
             case _QWERTY:
                 oled_write_P(PSTR("QWERTY "), false);
+                break;
+            case _COLEMAK:
+                oled_write_P(PSTR("COLEMAK"), false);
                 break;
             case _NAV:
                 oled_write_P(PSTR("Nav    "), false);
@@ -459,19 +472,19 @@ bool oled_task_user(void) {
             case _MOUSE:
                 oled_write_P(PSTR("Mouse  "), false);
                 break;
-      			case _GAMES:
-        				oled_write_P(PSTR("Games  "), false);
-        				break;
-      			case _GAMESNAV:
-        				oled_write_P(PSTR("Games <>"), false);
-        				break;
-      			case _ESC_SPR:
+            case _GAMES:
+                oled_write_P(PSTR("Games  "), false);
+                break;
+            case _GAMESNAV:
+                oled_write_P(PSTR("Games <>"), false);
+                break;
+            case _ESC_SPR:
                 oled_write_P(PSTR("QWERTY W"), false);
                 break;
-      			case _TOOLS:
+            case _TOOLS:
                 oled_write_P(PSTR("QWERTY T"), false);
                 break;
-      			case _ESC:
+            case _ESC:
                 oled_write_P(PSTR("QWERTY E"), false);
                 break;
             default:
@@ -483,4 +496,3 @@ bool oled_task_user(void) {
 
 #endif
 #endif
-
