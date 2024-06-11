@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 Makefile=$(dirname $0)/keyboards/splitkb/kyria/keymaps/WeraPea/rules.mk
 
