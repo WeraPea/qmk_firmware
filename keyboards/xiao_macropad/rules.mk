@@ -16,3 +16,5 @@ BOOTLOADER = rp2040
 # MIDI_ENABLE = no            # MIDI support (+2400 to 4200, depending on config)
 # UNICODE_ENABLE = no         # Unicode
 # AUDIO_ENABLE = no           # Audio output on port C6
+
+SERIAL_DRIVER = vendor

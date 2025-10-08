@@ -6,7 +6,7 @@ MCU = atmega32u4
 
 # Bootloader selection
 
-BOOTLOADER = atmel-dfu
+BOOTLOADER = caterina
 
 # Build Options
 #
@@ -24,3 +24,4 @@ LEADER_ENABLE = yes
 WPM_ENABLE = yes
 MOUSEKEY_ENABLE = yes
 KEY_OVERRIDE_ENABLE = no
+OS_DETECTION_ENABLE = yes

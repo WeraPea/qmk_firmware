@@ -32,7 +32,6 @@ enum layers {
     _GAMESNAV,
     _TOOLS,
     _ESC,
-    _FUCKINGSHIFT,
 };
 
 #ifdef LEADER_ENABLE
@@ -45,17 +44,10 @@ void leader_end_user(void) {
         layer_invert(_GAMESNAV);
     } else if (leader_sequence_one_key(KC_T)) {
         layer_invert(_TOOLS);
-    } else if (leader_sequence_one_key(KC_I)) {
-        register_code(KC_LSFT);
-        register_code(KC_INSERT);
-        unregister_code(KC_INSERT);
-        unregister_code(KC_LSFT);
     } else if (leader_sequence_one_key(KC_E)) {
         layer_invert(_ESC_SPR);
     } else if (leader_sequence_one_key(KC_R)) {
         layer_invert(_ESC);
-    } else if (leader_sequence_one_key(KC_S)) {
-        layer_invert(_FUCKINGSHIFT);
     } else if (leader_sequence_one_key(KC_C)) {
         layer_invert(_COLEMAK);
     }
@@ -96,15 +88,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * | LShift |   Z  |   X  |   C  |   V  |   B  |      |      |  | Num  |      |   N  |   M  | ,  < | . >  | AltGr|RShift  |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
  *                        | GUI+ | Ctrl | Space| Num/ |Leader|  | Sym  | Nav/ | Alt  | GUI  |Mouse |
- *                        | Num  |      |(T)Alt|Enter |      |  |      |Space |      |      |      |
+ *                        | Num  |      |      |Enter |      |  |      |Space |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
 
     [_QWERTY] = LAYOUT(
      KC_TAB  , KC_Q   , KC_W   , KC_E   , KC_R   , KC_T   ,                                     KC_Y   , KC_U   , KC_I   , KC_O   , KC_P   ,KC_BSPC ,
-	 KC_LGUI , KC_A   , KC_S   , KC_D   , KC_F   , KC_G   ,                                     KC_H   , KC_J   , KC_K   , KC_L   , KC_SCLN,CTL_QUOT,
+	   KC_LGUI , KC_A   , KC_S   , KC_D   , KC_F   , KC_G   ,                                     KC_H   , KC_J   , KC_K   , KC_L   , KC_SCLN,CTL_QUOT,
      KC_LSFT , KC_Z   , KC_X   , KC_C   , KC_V   , KC_B   , KC_MSEL, KC_SYRQ, NUM    , KC_MSEL, KC_N   , KC_M   , KC_COMM, KC_DOT ,ALT_SLASH,KC_RSFT,
-                                 GUI_NUM, KC_LCTL, ALT_SPC, ENT_SYM, QK_LEAD, ENT_SYM, NAV_SPC, LALT_BKSP, KC_LGUI, MOUSE_TILD
+                                 GUI_NUM, KC_LCTL, KC_SPC , ENT_SYM, QK_LEAD, ENT_SYM, NAV_SPC, LALT_BKSP, KC_LGUI, MOUSE_TILD
     ),
 
 /*
@@ -143,7 +135,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        `----------------------------------'  `----------------------------------'
  */
     [_NAV] = LAYOUT(
-      _______, _______, _______, _______, _______, _______,                                     KC_PGUP,KC_PAUSE, KC_HOME, KC_END , KC_VOLU, KC_DEL,
+      _______, _______, _______, _______, _______, _______,                                     KC_PGUP,KC_PAUSE, KC_HOME, KC_END , KC_VOLU, KC_DEL ,
       _______, _______, _______, _______, _______, _______,                                     KC_LEFT, KC_DOWN, KC_UP  , KC_RGHT, KC_VOLD, KC_INS ,
       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_PGDN, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_PSCR,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
@@ -188,7 +180,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
     [_NUMFUN] = LAYOUT(
       _______, KC_1   , KC_2   , KC_3   , KC_4   , KC_5   ,                                     KC_6   , KC_7   , KC_8   , KC_9   , KC_0   , _______,
-	  _______, KC_F1  , KC_F2  , KC_F3  , KC_F4  , KC_F5  ,                                     KC_F6  , KC_F7  , KC_F8  , KC_F9  , KC_F10 , _______,
+      _______, KC_F1  , KC_F2  , KC_F3  , KC_F4  , KC_F5  ,                                     KC_F6  , KC_F7  , KC_F8  , KC_F9  , KC_F10 , _______,
       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_F11 , KC_F12 , _______,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
@@ -212,12 +204,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        |      |      |      |      |      |  |      |      |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
-	[_MOUSE] = LAYOUT(
-	  _______, _______, _______, _______, _______, _______,                                     KC_WH_U, KC_BTN1, KC_BTN3, KC_BTN2, _______, _______,
-	  _______, _______, _______, _______, _______, _______,                                     KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, _______, _______,
-	  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_WH_D, KC_ACL0, KC_ACL1, KC_ACL2, _______, _______,
-                               _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
-	),
+    [_MOUSE] = LAYOUT(
+      _______, _______, _______, _______, _______, _______,                                     KC_WH_U, KC_BTN1, KC_BTN3, KC_BTN2, _______, _______,
+      _______, _______, _______, _______, _______, _______,                                     KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_WH_D, KC_ACL0, KC_ACL1, KC_ACL2, _______, _______,
+                                 _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    ),
 
     [_GAMES] = LAYOUT(
       _______, _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
@@ -247,13 +239,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
 
-    [_FUCKINGSHIFT] = LAYOUT(
-      _______, _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______,                                     _______, _______, _______, _______, _______, _______,
-      KC_TILD, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-                                 _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
-    ),
-
 /*
  * Games - navigation using arrows
  *
@@ -275,6 +260,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
      ),
 };
+// clang-format on
 
 // /*
 //  * Layer template
@@ -297,29 +283,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 //     ),
 
-#ifdef ENCODER_ENABLE
-bool encoder_update_user(uint8_t index, bool clockwise) {
-
-    if (index == 1) {
-        // Volume control
-        if (clockwise) {
-            tap_code(KC_VOLU);
-        } else {
-            tap_code(KC_VOLD);
-        }
-    } else if (index == 2) {
-        // Page up/Page down
-        if (clockwise) {
-            tap_code(KC_PGDN);
-        } else {
-            tap_code(KC_PGUP);
-        }
-    }
-    return false;
-}
-#endif
-
-
 // OLED STUFF STARTS HERE
 // based on https://github.com/qmk/qmk_firmware/blob/master/keyboards/kyria/keymaps/j-inc/keymap.c
 
@@ -328,23 +291,23 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 // WPM_ENABLE = yes
 
 #ifdef WPM_ENABLE
-#ifdef OLED_ENABLE
+#    ifdef OLED_ENABLE
 /* #ifdef OLED_DRIVER_ENABLE */
 // WPM-responsive animation stuff here
-#    define IDLE_FRAMES 5
-#    define IDLE_SPEED 20  // below this wpm value your animation will idle
+#        define IDLE_FRAMES 5
+#        define IDLE_SPEED 20 // below this wpm value your animation will idle
 
-#    define TAP_FRAMES 2
-#    define TAP_SPEED 20  // above this wpm value typing animation to trigger
+#        define TAP_FRAMES 2
+#        define TAP_SPEED 20 // above this wpm value typing animation to trigger
 
-#    define ANIM_FRAME_DURATION 200  // how long each frame lasts in ms
+#        define ANIM_FRAME_DURATION 200 // how long each frame lasts in ms
 // #define SLEEP_TIMER 60000 // should sleep after this period of 0 wpm, needs fixing
-#    define ANIM_SIZE 636  // number of bytes in array, minimize for adequate firmware size, max is 1024
+#        define ANIM_SIZE 636 // number of bytes in array, minimize for adequate firmware size, max is 1024
 
 uint32_t anim_timer         = 0;
 uint32_t anim_sleep         = 0;
 uint8_t  current_idle_frame = 0;
-uint8_t current_tap_frame = 0;
+uint8_t  current_tap_frame  = 0;
 
 // Code containing pixel art, contains:
 // 5 idle frames, 1 prep frame, and 2 tap frames
@@ -379,7 +342,7 @@ static void render_anim(void) {
     //                                                 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x3f, 0xc1, 0x01, 0x01, 0x02, 0x02, 0x04, 0x84, 0x44, 0x44, 0x42, 0x82, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x40, 0x80, 0x80, 0x40, 0x00, 0x00, 0x30, 0x30, 0x00, 0x00, 0x00, 0x00, 0x01, 0x02, 0x64, 0x18, 0x04, 0x12, 0xc2, 0xca, 0x24, 0x88, 0xf0, 0x80, 0x80, 0x40, 0x40, 0x40, 0x40, 0x20, 0x20, 0x20, 0x20, 0x10, 0x10, 0x10, 0x10, 0x08, 0x08, 0x08, 0x08, 0x04, 0x04, 0x04, 0x04, 0x02, 0x02, 0x02, 0x02, 0x01, 0x01, 0x01, 0x01,
     //                                                 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xe0, 0x18, 0x06, 0x01, 0x00, 0x00, 0x0c, 0x03, 0x00, 0x02, 0x18, 0x19, 0x00, 0x05, 0xfe, 0x80, 0x83, 0x83, 0x40, 0x40, 0x40, 0x40, 0x20, 0x21, 0x21, 0x20, 0x10, 0x10, 0x10, 0x10, 0x08, 0x08, 0x08, 0x08, 0x04, 0x04, 0x04, 0x04, 0x02, 0x02, 0x02, 0x02, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     //                                                 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x80, 0x80, 0x80, 0x40, 0x40, 0x40, 0x40, 0x20, 0x20, 0x20, 0x20, 0x10, 0x10, 0x10, 0x10, 0x08, 0x0f, 0x08, 0x08, 0x04, 0x04, 0x04, 0x04, 0x02, 0x02, 0x02, 0x02, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}};
-    static const char PROGMEM tap[TAP_FRAMES][ANIM_SIZE]   = {
+    static const char PROGMEM tap[TAP_FRAMES][ANIM_SIZE] = {
         {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x80, 0x80, 0x40, 0x40, 0x20, 0x20, 0x10, 0x08, 0x04, 0x02, 0x04, 0x08, 0x10, 0x10, 0x20, 0x20, 0x40, 0x40, 0x80, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
          0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x3f, 0xc1, 0x01, 0x01, 0x02, 0x02, 0x04, 0x04, 0x04, 0x04, 0x02, 0x02, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x40, 0x80, 0x80, 0x40, 0x00, 0x00, 0x30, 0x30, 0x00, 0x00, 0x00, 0x00, 0x01, 0x02, 0x64, 0x18, 0x04, 0x12, 0xc2, 0xca, 0x24, 0x88, 0xf0, 0x80, 0x80, 0x40, 0x40, 0x40, 0x40, 0x20, 0x20, 0x20, 0x20, 0x10, 0x10, 0x10, 0x10, 0x08, 0x08, 0x08, 0x08, 0x04, 0x04, 0x04, 0x04, 0x02, 0x02, 0x02, 0x02, 0x01, 0x01, 0x01, 0x01,
          0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xe0, 0x18, 0x06, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x83, 0x83, 0x40, 0x40, 0x40, 0x40, 0x20, 0x21, 0x21, 0x20, 0x10, 0x10, 0x10, 0x10, 0x08, 0x08, 0x08, 0x08, 0x04, 0x04, 0x04, 0x04, 0x02, 0x02, 0x02, 0x02, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -395,105 +358,87 @@ static void render_anim(void) {
         if (get_current_wpm() <= IDLE_SPEED) {
             current_idle_frame = (current_idle_frame + 1) % IDLE_FRAMES;
             oled_write_raw_P(idle[abs((IDLE_FRAMES - 1) - current_idle_frame)], ANIM_SIZE);
-        }
-        // if (get_current_wpm() > IDLE_SPEED && get_current_wpm() < TAP_SPEED) {
-        //     // oled_write_raw_P(prep[abs((PREP_FRAMES-1)-current_prep_frame)], ANIM_SIZE); // uncomment if IDLE_FRAMES >1
-        //     oled_write_raw_P(prep[0], ANIM_SIZE);  // remove if IDLE_FRAMES >1
-        // }
-        else {
-        // if (get_current_wpm() >= TAP_SPEED) {
+        } else {
             current_tap_frame = (current_tap_frame + 1) % TAP_FRAMES;
             oled_write_raw_P(tap[abs((TAP_FRAMES - 1) - current_tap_frame)], ANIM_SIZE);
         }
     }
-    // if (get_current_wpm() != 000) {
-        /* oled_on();  // not essential but turns on animation OLED with any alpha keypress */
-        if (timer_elapsed32(anim_timer) > ANIM_FRAME_DURATION) {
-            anim_timer = timer_read32();
-            animation_phase();
-        }
-        anim_sleep = timer_read32();
-    // } else {
-    //     /* if (timer_elapsed32(anim_sleep) > OLED_TIMEOUT) { */
-    //         /* oled_off(); */
-    //     /* } else { */
-    //         if (timer_elapsed32(anim_timer) > ANIM_FRAME_DURATION) {
-    //             anim_timer = timer_read32();
-    //             animation_phase();
-    //         }
-    //     /* } */
-    // }
+    uint32_t current_wpm    = get_current_wpm();
+    uint32_t frame_duration = ANIM_FRAME_DURATION;
+
+    if (current_wpm > IDLE_SPEED) {
+        frame_duration = ANIM_FRAME_DURATION * IDLE_SPEED / current_wpm * 3;
+        if (frame_duration < 20) frame_duration = 20;
+    }
+    if (timer_elapsed32(anim_timer) > frame_duration) {
+        anim_timer = timer_read32();
+        animation_phase();
+    }
+    anim_sleep = timer_read32();
 }
 
 bool oled_task_user(void) {
-    /* if (! is_keyboard_master()) { */
-    /* if (true) { */
-    if (false) {
-        // QMK Logo and version information
-        // clang-format off
-        static const char PROGMEM qmk_logo[] = {
-            0x80,0x81,0x82,0x83,0x84,0x85,0x86,0x87,0x88,0x89,0x8a,0x8b,0x8c,0x8d,0x8e,0x8f,0x90,0x91,0x92,0x93,0x94,
-            0xa0,0xa1,0xa2,0xa3,0xa4,0xa5,0xa6,0xa7,0xa8,0xa9,0xaa,0xab,0xac,0xad,0xae,0xaf,0xb0,0xb1,0xb2,0xb3,0xb4,
-            0xc0,0xc1,0xc2,0xc3,0xc4,0xc5,0xc6,0xc7,0xc8,0xc9,0xca,0xcb,0xcc,0xcd,0xce,0xcf,0xd0,0xd1,0xd2,0xd3,0xd4,0};
-        // clang-format on
+    render_anim(); // renders pixelart
 
-        oled_write_P(qmk_logo, false);
+    oled_set_cursor(0, 0); // sets cursor to (row, column) using charactar spacing (5 rows on 128x32 screen, anything more will overflow back to the top)
 
-        // Write host Keyboard LED Status to OLEDs
-        led_t led_usb_state = host_keyboard_led_state();
-        oled_write_P(led_usb_state.num_lock ? PSTR("NUMLCK ") : PSTR("       "), false);
-        oled_write_P(led_usb_state.caps_lock ? PSTR("CAPLCK ") : PSTR("       "), false);
-        oled_write_P(led_usb_state.scroll_lock ? PSTR("SCRLCK ") : PSTR("       "), false);
-    } else {
-        render_anim(); // renders pixelart
+    /* oled_write_P(PSTR("WPM:"), false); */
+    /* oled_write(get_u8_str(get_current_wpm(), ' '), false); */
+    /* oled_set_cursor(0, 1); */
 
-        oled_set_cursor(0, 0); // sets cursor to (row, column) using charactar spacing (5 rows on 128x32 screen, anything more will overflow back to the top)
-                               /* oled_write_P(PSTR("WPM:"), false); */
-                               /* oled_write(get_u8_str(get_current_wpm(), ' '), false); */
-
-        /* oled_set_cursor(0, 1); */
-
-        // Host Keyboard Layer Status
-        switch (get_highest_layer(layer_state | default_layer_state)) {
-            case _QWERTY:
-                oled_write_P(PSTR("QWERTY "), false);
-                break;
-            case _COLEMAK:
-                oled_write_P(PSTR("COLEMAK"), false);
-                break;
-            case _NAV:
-                oled_write_P(PSTR("Nav    "), false);
-                break;
-            case _SYM:
-                oled_write_P(PSTR("Sym    "), false);
-                break;
-            case _NUMFUN:
-                oled_write_P(PSTR("Func   "), false);
-                break;
-            case _MOUSE:
-                oled_write_P(PSTR("Mouse  "), false);
-                break;
-            case _GAMES:
-                oled_write_P(PSTR("Games  "), false);
-                break;
-            case _GAMESNAV:
-                oled_write_P(PSTR("Games <>"), false);
-                break;
-            case _ESC_SPR:
-                oled_write_P(PSTR("QWERTY W"), false);
-                break;
-            case _TOOLS:
-                oled_write_P(PSTR("QWERTY T"), false);
-                break;
-            case _ESC:
-                oled_write_P(PSTR("QWERTY E"), false);
-                break;
-            default:
-                oled_write_P(PSTR("        "), false);
-        }
+    // Host Keyboard Layer Status
+    switch (get_highest_layer(layer_state | default_layer_state)) {
+        case _QWERTY:
+            oled_write_P(PSTR("QWERTY "), false);
+            break;
+        case _COLEMAK:
+            oled_write_P(PSTR("COLEMAK"), false);
+            break;
+        case _NAV:
+            oled_write_P(PSTR("Nav    "), false);
+            break;
+        case _SYM:
+            oled_write_P(PSTR("Sym    "), false);
+            break;
+        case _NUMFUN:
+            oled_write_P(PSTR("Func   "), false);
+            break;
+        case _MOUSE:
+            oled_write_P(PSTR("Mouse  "), false);
+            break;
+        case _GAMES:
+            oled_write_P(PSTR("Games  "), false);
+            break;
+        case _GAMESNAV:
+            oled_write_P(PSTR("Games <>"), false);
+            break;
+        case _ESC_SPR:
+            oled_write_P(PSTR("QWERTY W"), false);
+            break;
+        case _TOOLS:
+            oled_write_P(PSTR("QWERTY T"), false);
+            break;
+        case _ESC:
+            oled_write_P(PSTR("QWERTY E"), false);
+            break;
+        default:
+            oled_write_P(PSTR("        "), false);
     }
-    return false;
 }
 
 #    endif
+#endif
+
+#ifdef OS_DETECTION_ENABLE
+bool process_detected_host_os_user(os_variant_t detected_os) {
+    switch (detected_os) {
+        case OS_WINDOWS:
+            layer_on(_ESC_SPR);
+            break;
+        default:
+            layer_off(_ESC_SPR);
+            break;
+    }
+    return true;
+}
 #endif
