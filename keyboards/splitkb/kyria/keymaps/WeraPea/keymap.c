@@ -67,7 +67,7 @@ void leader_end_user(void) {
 #define ALT_SPC MT(MOD_LALT, KC_SPC)
 #define GUI_ESC MT(MOD_LGUI, KC_ESC)
 #define ALT_SLASH MT(MOD_RALT, KC_SLSH)
-#define LALT_BKSP MT(MOD_LALT, KC_BSPC)
+#define LALT_LNG MT(MOD_LALT, KC_LNG1)
 
 #define NAV_SPC LT(_NAV, KC_SPC)
 #define GUI_NUM LM(_NUMFUN, MOD_LGUI)
@@ -94,9 +94,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_QWERTY] = LAYOUT(
      KC_TAB  , KC_Q   , KC_W   , KC_E   , KC_R   , KC_T   ,                                     KC_Y   , KC_U   , KC_I   , KC_O   , KC_P   ,KC_BSPC ,
-	   KC_LGUI , KC_A   , KC_S   , KC_D   , KC_F   , KC_G   ,                                     KC_H   , KC_J   , KC_K   , KC_L   , KC_SCLN,CTL_QUOT,
+     KC_LGUI , KC_A   , KC_S   , KC_D   , KC_F   , KC_G   ,                                     KC_H   , KC_J   , KC_K   , KC_L   , KC_SCLN,CTL_QUOT,
      KC_LSFT , KC_Z   , KC_X   , KC_C   , KC_V   , KC_B   , KC_MSEL, KC_SYRQ, NUM    , KC_MSEL, KC_N   , KC_M   , KC_COMM, KC_DOT ,ALT_SLASH,KC_RSFT,
-                                 GUI_NUM, KC_LCTL, KC_SPC , ENT_SYM, QK_LEAD, ENT_SYM, NAV_SPC, LALT_BKSP, KC_LGUI, MOUSE_TILD
+                                 GUI_NUM, KC_LCTL, KC_SPC , ENT_SYM, QK_LEAD, ENT_SYM, NAV_SPC, LALT_LNG, KC_LGUI, MOUSE_TILD
     ),
 
 /*
@@ -205,9 +205,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                        `----------------------------------'  `----------------------------------'
  */
     [_MOUSE] = LAYOUT(
-      _______, _______, _______, _______, _______, _______,                                     KC_WH_U, KC_BTN1, KC_BTN3, KC_BTN2, _______, _______,
-      _______, _______, _______, _______, _______, _______,                                     KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, _______, _______,
-      _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_WH_D, KC_ACL0, KC_ACL1, KC_ACL2, _______, _______,
+      _______, _______, _______, _______, _______, _______,                                     MS_WHLU, MS_BTN1, MS_BTN3, MS_BTN2, _______, _______,
+      _______, _______, _______, _______, _______, _______,                                     MS_LEFT, MS_DOWN, MS_UP  , MS_RGHT, _______, _______,
+      _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, MS_WHLD, MS_ACL0, MS_ACL1, MS_ACL2, _______, _______,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
 
@@ -424,6 +424,7 @@ bool oled_task_user(void) {
         default:
             oled_write_P(PSTR("        "), false);
     }
+    return false;
 }
 
 #    endif
