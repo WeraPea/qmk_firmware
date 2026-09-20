@@ -5,8 +5,8 @@ enum custom_keycodes {
 };
 
 enum layers {
-    _NUMPAD = 0,
-    _MEDIA,
+    _MEDIA = 0,
+    _NUMPAD,
     _MOUSE,
     _LAYERS,
 };
@@ -61,16 +61,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * │ ← │ ↓ │ → │Vl-│
      * ├───┼───┼───┼───┤
      * │Prv│Ply│Nxt│Mut│
-     * ├───┼───┴───┴───┘
-     * │SfS│   │   │   │
-     * └───┘───┴───┴───┘
+     * ├───┼───┼───┼───┤
+     * │SfS│   │S-P│Ent│
+     * └───┘───└───┴───┘
      */
     [_MEDIA] = LAYOUT_ortho_5x4(
         _______, _______, KC_COMM, KC_DOT ,
         KC_LBRC, KC_UP  , KC_RBRC, KC_VOLU,
         KC_LEFT, KC_DOWN, KC_RGHT, KC_VOLD,
         KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE,
-        MT(MOD_LSFT, KC_SPC),_______,_______,
+        MT(MOD_LSFT, KC_SPC),LT(_MOUSE,_______),S(KC_P),LT(_LAYERS,KC_ENT)
     ),
     /*
      * ┌───┌───┐───┬───┐
@@ -86,9 +86,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * └───┴───┴───┴───┘
      */
     [_MOUSE] = LAYOUT_ortho_5x4(
-        _______, KC_BTN3, _______, _______,
-        KC_BTN1, KC_MS_U, KC_BTN2, KC_WH_U,
-        KC_MS_L, KC_MS_D, KC_MS_R, KC_WH_D,
+        _______, MS_BTN3, _______, _______,
+        MS_BTN1, MS_UP  , MS_BTN2, MS_WHLU,
+        MS_LEFT, MS_DOWN, MS_RGHT, MS_WHLD,
         _______, _______, _______, _______,
         _______, _______, _______, _______
     )
