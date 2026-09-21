@@ -20,6 +20,10 @@
 char wpm_str[10];
 #endif
 
+enum tap_dance_codes {
+    TD_LEAD_NUM,
+};
+
 enum layers {
     _QWERTY = 0,
     _COLEMAK,
@@ -74,6 +78,7 @@ void leader_end_user(void) {
 #define ENT_NUM LT(_NUMFUN, KC_ENT)
 #define ENT_SYM LT(_SYM, KC_ENT)
 #define MOUSE_TILD LT(_MOUSE, KC_TILD)
+#define TDLEADNUM TD(TD_LEAD_NUM)
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -87,8 +92,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------+-------------.  ,-------------+------+------+------+------+------+--------|
  * | LShift |   Z  |   X  |   C  |   V  |   B  |      |      |  | Num  |      |   N  |   M  | ,  < | . >  | AltGr|RShift  |
  * `----------------------+------+------+------+------+------|  |------+------+------+------+------+----------------------'
- *                        | GUI+ | Ctrl | Space| Num/ |Leader|  | Sym  | Nav/ | Alt  | GUI  |Mouse |
- *                        | Num  |      |      |Enter |      |  |      |Space |      |      |      |
+ *                        | GUI+ | Ctrl | Space| Sym/ | Num/ |  | Sym  | Nav/ | Alt  | GUI  |Mouse |
+ *                        | Num  |      |      |Enter |Leader|  |      |Space |      |      |      |
  *                        `----------------------------------'  `----------------------------------'
  */
 
@@ -96,7 +101,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      KC_TAB  , KC_Q   , KC_W   , KC_E   , KC_R   , KC_T   ,                                     KC_Y   , KC_U   , KC_I   , KC_O   , KC_P   ,KC_BSPC ,
      KC_LGUI , KC_A   , KC_S   , KC_D   , KC_F   , KC_G   ,                                     KC_H   , KC_J   , KC_K   , KC_L   , KC_SCLN,CTL_QUOT,
      KC_LSFT , KC_Z   , KC_X   , KC_C   , KC_V   , KC_B   , KC_MSEL, KC_SYRQ, NUM    , KC_MSEL, KC_N   , KC_M   , KC_COMM, KC_DOT ,ALT_SLASH,KC_RSFT,
-                                 GUI_NUM, KC_LCTL, KC_SPC , ENT_SYM, QK_LEAD, ENT_SYM, NAV_SPC, LALT_LNG, KC_LSFT, MOUSE_TILD
+                                 GUI_NUM, KC_LCTL, KC_SPC , ENT_SYM,TDLEADNUM, ENT_SYM, NAV_SPC, LALT_LNG, KC_LSFT, MOUSE_TILD
     ),
 
 /*
@@ -282,6 +287,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
 //                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 //     ),
+
+void td_lead_num_finished(tap_dance_state_t *state, void *user_data) {
+    if (state->pressed) {
+        layer_on(_NUMFUN);
+    } else {
+        leader_start();
+    }
+}
+
+void td_lead_num_reset(tap_dance_state_t *state, void *user_data) {
+    layer_off(_NUMFUN);
+}
+
+tap_dance_action_t tap_dance_actions[] = {
+    [TD_LEAD_NUM] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, td_lead_num_finished, td_lead_num_reset),
+};
 
 // OLED STUFF STARTS HERE
 // based on https://github.com/qmk/qmk_firmware/blob/master/keyboards/kyria/keymaps/j-inc/keymap.c
