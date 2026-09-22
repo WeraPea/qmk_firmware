@@ -36,6 +36,7 @@ enum layers {
     _GAMESNAV,
     _TOOLS,
     _ESC,
+    _LEADER,
 };
 
 #ifdef LEADER_ENABLE
@@ -264,6 +265,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
      ),
+
+    [_LEADER] = LAYOUT(
+      _______, KC_F1  , KC_F2  , KC_F3  , KC_F4  , KC_F5  ,                                     _______, _______, _______, _______, _______, _______,
+      KC_LCTL, KC_F6  , KC_F7  , KC_F8  , KC_F9  , KC_F10 ,                                     _______, _______, _______, _______, _______, _______,
+      _______, KC_F11 , KC_F12 , MS_BTN1, MS_BTN3, MS_BTN2, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+                                 _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    ),
 };
 // clang-format on
 
@@ -290,14 +298,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 void td_lead_num_finished(tap_dance_state_t *state, void *user_data) {
     if (state->pressed) {
-        layer_on(_NUMFUN);
+        layer_on(_LEADER);
     } else {
         leader_start();
     }
 }
 
 void td_lead_num_reset(tap_dance_state_t *state, void *user_data) {
-    layer_off(_NUMFUN);
+    layer_off(_LEADER);
 }
 
 tap_dance_action_t tap_dance_actions[] = {
