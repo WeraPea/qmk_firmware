@@ -70,7 +70,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LBRC, KC_UP  , KC_RBRC, KC_VOLU,
         KC_LEFT, KC_DOWN, KC_RGHT, KC_VOLD,
         KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE,
-        MT(MOD_LSFT, KC_SPC),LT(_MOUSE,_______),S(KC_P),LT(_LAYERS,KC_ENT)
+        MT(MOD_LSFT, KC_SPC),LT(_MOUSE,_______),MT(MOD_LGUI, S(KC_P)),LT(_LAYERS,KC_ENT)
     ),
     /*
      * ┌───┌───┐───┬───┐
