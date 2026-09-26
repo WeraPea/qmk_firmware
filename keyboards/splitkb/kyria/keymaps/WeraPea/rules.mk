@@ -16,6 +16,7 @@ RGBLIGHT_ENABLE = no      # Enable keyboard RGB underglow
 SPACE_CADET_ENABLE = no
 GRAVE_ESC_ENABLE = no
 TAP_DANCE_ENABLE = yes
+SWAP_HANDS_ENABLE = yes
 
 NKRO_ENABLE = yes          # Enable N-Key Rollover
 SPLIT_KEYBOARD = yes       # Split common
