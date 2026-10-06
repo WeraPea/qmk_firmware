@@ -450,6 +450,9 @@ bool oled_task_user(void) {
         case _ESC:
             oled_write_P(PSTR("QWERTY E"), false);
             break;
+        case _LEADER:
+            oled_write_P(PSTR("Leader  "), false);
+            break;
         default:
             oled_write_P(PSTR("        "), false);
     }
